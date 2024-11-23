@@ -16,6 +16,7 @@ int	text(t_data *data, size_t payload_size) {
 		printf("Found text segment\n");
 
 		data->cave.offset = phdr[i].p_offset + phdr[i].p_filesz;
+		data->cave.addr = phdr[i].p_vaddr + phdr[i].p_filesz;
 		int next_offset = phdr[i].p_offset + (phdr[i].p_memsz / PAGE_SIZE + 1) * PAGE_SIZE;
 		data->cave.size = next_offset - data->cave.offset;
 
@@ -27,11 +28,6 @@ int	text(t_data *data, size_t payload_size) {
 		phdr[i].p_flags  |= PF_W;
 		phdr[i].p_filesz += payload_size;
 		phdr[i].p_memsz  += payload_size;
-
-		data->cave.rel_jmp =  \
-		(int64_t)data->cave.old_entry - \
-		((int64_t)phdr[i].p_vaddr + (int64_t)phdr[i].p_filesz);
-
 
 		return 0;
 

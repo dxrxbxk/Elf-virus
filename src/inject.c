@@ -97,12 +97,23 @@ int	patch_new_file(t_data *data) {
 	return 0;
 }
 
+int	calculate_jmp(t_data *data, size_t payload_size) {
+
+		data->cave.rel_jmp =  \
+		(int64_t)data->cave.old_entry - \
+		((int64_t)data->cave.addr + (int64_t)payload_size);
+
+	return 0;
+}
+
 int	inject(t_data *data, t_options *options) {
 
 	if (g_find_cave[options->algo](data, g_payload_size) == 1) {
 		fprintf(stderr, "Error: no cave found\n");
 		return 1;
 	}
+
+	calculate_jmp(data, g_payload_size);
 
 	modify_payload(data->cave.rel_jmp, JMP_OFFSET, sizeof(data->cave.rel_jmp), (uint8_t *)g_payload, g_payload_size);
 
