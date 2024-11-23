@@ -8,13 +8,15 @@
 # include <string.h>
 
 enum {
-	SILVIO,
-	ALGO_COUNT
+	SILVIO = 0,
+	TEXT,
+	ALGO_SIZE
 } e_algo;
 
 typedef struct s_options {
 	int	algo;
-	char	*fd_name;
+	char	*binary;
+	char	*payload;
 } t_options;
 
 #endif
