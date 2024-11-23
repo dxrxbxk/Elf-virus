@@ -4,16 +4,14 @@
 
 #include <unistd.h>
 
-#define PAGE_SIZE sysconf(_SC_PAGE_SIZE)
+#define PAGE_SIZE 0x1000
 
 #include <stdio.h>
 
 int	silvio(t_data *data, size_t payload_size) {
-	fprintf(stderr, "Silvio algorithm not implemented\n");
 
+	size_t elf_size = data->size;
 	data->file = expand_file(data->file, data->size, data->size + PAGE_SIZE, data);
-	data->size += PAGE_SIZE;
-
 
 	Elf64_Phdr	*phdr = data->elf.phdr;
 	Elf64_Shdr	*shdr = data->elf.shdr;
@@ -49,10 +47,12 @@ int	silvio(t_data *data, size_t payload_size) {
 		if (shdr[i].sh_offset > data->cave.offset) {
 			shdr[i].sh_offset += PAGE_SIZE;
 		}
-		if (shdr[i].sh_addr + shdr[i].sh_size == data->cave.addr) {
+		else if (shdr[i].sh_addr + shdr[i].sh_size == data->cave.addr) {
 			shdr[i].sh_size += payload_size;
 		}
 	}
+
+	memmove(data->file + data->cave.offset + PAGE_SIZE, data->file + data->cave.offset, elf_size - data->cave.offset);
 
 	return 0;
 }

@@ -42,9 +42,11 @@ uint8_t	*expand_file(uint8_t *file, size_t size, size_t new_size, t_data *data) 
 		return NULL;
 	}
 
+	memset(new_file, 0, new_size);
+
 	memcpy(new_file, file, size);
 
-	init_data(data, new_file, new_size);
 	munmap(file, size);
+	init_data(data, new_file, new_size);
 	return new_file;
 }
