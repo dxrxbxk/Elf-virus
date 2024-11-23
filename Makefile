@@ -80,7 +80,8 @@ override defines := $(addprefix -D, $(def))
 # compiler flags
 override cflags := $(std) $(opt) $(dbg) $(defines) -I$(inc_dir) \
 					-Wall -Wextra -Werror -Wpedantic \
-					-Wno-unused -Wno-unused-variable -Wno-unused-parameter
+					-Wno-unused -Wno-unused-variable -Wno-unused-parameter \
+					-Wno-empty-translation-unit
 
 override ldflags := 
 
