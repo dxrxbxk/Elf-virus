@@ -1,17 +1,18 @@
 /* Silvio implementation */
 #include "silvio.h"
 #include "map.h"
+#include <string.h>
 
 #include <unistd.h>
 
 #define PAGE_SIZE 0x1000
 
-#include <stdio.h>
-
 int	silvio(t_data *data, size_t payload_size) {
 
 	size_t elf_size = data->size;
 	data->file = expand_file(data->file, data->size, data->size + PAGE_SIZE, data);
+	if (!data->file)
+		return -1;
 
 	Elf64_Phdr	*phdr = data->elf.phdr;
 	Elf64_Shdr	*shdr = data->elf.shdr;
@@ -26,10 +27,12 @@ int	silvio(t_data *data, size_t payload_size) {
 
 			data->cave.offset = phdr[i].p_offset + phdr[i].p_filesz;
 			data->cave.addr = phdr[i].p_vaddr + phdr[i].p_filesz;
-			
+
+			if (payload_size > PAGE_SIZE) {
+				return -1;
+			}
 			
 			ehdr->e_entry = data->cave.addr;
-			
 
 			phdr[i].p_filesz += payload_size;
 			phdr[i].p_memsz += payload_size;

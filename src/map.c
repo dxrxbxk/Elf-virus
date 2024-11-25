@@ -1,6 +1,12 @@
 #include "map.h"
-
-#define BLOCK_SIZE (1 << 12)
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 
 uint8_t	*map_file(const char *filename, size_t *size) {
 	int		fd;
@@ -41,12 +47,12 @@ uint8_t	*expand_file(uint8_t *file, size_t size, size_t new_size, t_data *data) 
 		perror("mmap");
 		return NULL;
 	}
-
 	memset(new_file, 0, new_size);
-
 	memcpy(new_file, file, size);
 
 	munmap(file, size);
+
 	init_data(data, new_file, new_size);
+
 	return new_file;
 }

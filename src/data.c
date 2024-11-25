@@ -1,5 +1,6 @@
 #include "data.h"
 #include <sys/mman.h>
+#include <string.h>
 
 int	init_data(t_data *data, uint8_t *file, size_t size) {
 	memset(data, 0, sizeof(t_data));
@@ -12,6 +13,10 @@ int	init_data(t_data *data, uint8_t *file, size_t size) {
 
 	return 0;
 
+}
+
+void	set_elf_size(t_data *data, size_t size) {
+	data->size = size;
 }
 
 void	free_data(t_data *data) {

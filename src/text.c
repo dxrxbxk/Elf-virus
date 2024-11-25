@@ -1,5 +1,4 @@
 #include "text.h"
-#include <stdio.h>
 
 #define PAGE_SIZE	sysconf(_SC_PAGE_SIZE)
 
@@ -12,8 +11,6 @@ int	text(t_data *data, size_t payload_size) {
 
 		if (phdr[i].p_type != PT_LOAD || (phdr[i].p_flags & PF_X) == 0)
 			continue;
-
-		printf("Found text segment\n");
 
 		data->cave.offset = phdr[i].p_offset + phdr[i].p_filesz;
 		data->cave.addr = phdr[i].p_vaddr + phdr[i].p_filesz;
