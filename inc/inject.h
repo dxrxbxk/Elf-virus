@@ -7,6 +7,9 @@ enum {
 	SILVIO = 0,
 	TEXT,
 	BSS,
+	NOTE,
+	LOAD,
+	REVERSE,
 	ALGO_SIZE
 };
 

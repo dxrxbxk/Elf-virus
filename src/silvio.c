@@ -1,11 +1,12 @@
 /* Silvio implementation */
+
 #include "silvio.h"
 #include "map.h"
 #include <string.h>
 
 #include <unistd.h>
 
-#define PAGE_SIZE 0x1000
+#define PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 
 int	silvio(t_data *data, size_t payload_size) {
 
@@ -28,7 +29,7 @@ int	silvio(t_data *data, size_t payload_size) {
 			data->cave.offset = phdr[i].p_offset + phdr[i].p_filesz;
 			data->cave.addr = phdr[i].p_vaddr + phdr[i].p_filesz;
 
-			if (payload_size > PAGE_SIZE) {
+			if ((long)payload_size > PAGE_SIZE) {
 				return -1;
 			}
 			
@@ -47,6 +48,7 @@ int	silvio(t_data *data, size_t payload_size) {
 	}
 
 	for (int i = 0; i < ehdr->e_shnum; i++) {
+
 		if (shdr[i].sh_offset > data->cave.offset) {
 			shdr[i].sh_offset += PAGE_SIZE;
 		}
@@ -56,6 +58,7 @@ int	silvio(t_data *data, size_t payload_size) {
 	}
 
 	memmove(data->file + data->cave.offset + PAGE_SIZE, data->file + data->cave.offset, elf_size - data->cave.offset);
+	memset(data->file + data->cave.offset, 0, PAGE_SIZE);
 
 	return 0;
 }

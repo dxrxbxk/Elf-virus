@@ -8,6 +8,12 @@ int	cmp_algo(const char *algo) {
 		return TEXT;
 	else if (strcmp(algo, "bss") == 0)
 		return BSS;
+	else if (strcmp(algo, "note") == 0)
+		return NOTE;
+	else if (strcmp(algo, "load") == 0)
+		return LOAD;
+	else if (strcmp(algo, "reverse") == 0)
+		return REVERSE;
 	return DEFAULT_ALGO;
 }
 

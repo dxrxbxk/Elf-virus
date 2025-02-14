@@ -3,7 +3,7 @@
 
 int main() {
 
-	static int *i;
+	static int *i = NULL;
 
 	printf("%p\n", i);
 

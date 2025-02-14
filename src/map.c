@@ -42,7 +42,7 @@ uint8_t	*map_file(const char *filename, size_t *size) {
 uint8_t	*expand_file(uint8_t *file, size_t size, size_t new_size, t_data *data) {
 	uint8_t	*new_file;
 
-	new_file = mmap(NULL, new_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	new_file = mmap(NULL, new_size, PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (new_file == MAP_FAILED) {
 		perror("mmap");
 		return NULL;
@@ -52,7 +52,8 @@ uint8_t	*expand_file(uint8_t *file, size_t size, size_t new_size, t_data *data) 
 
 	munmap(file, size);
 
-	init_data(data, new_file, new_size);
+	//init_data(data, new_file, new_size);
+	update_data(data, new_file, new_size);
 
 	return new_file;
 }

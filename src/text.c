@@ -1,3 +1,5 @@
+/* Text segment implementation */
+
 #include "text.h"
 
 #define PAGE_SIZE	sysconf(_SC_PAGE_SIZE)

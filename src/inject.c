@@ -14,6 +14,9 @@
 #include "silvio.h"
 #include "text.h"
 #include "bss.h"
+#include "note.h"
+#include "load.h"
+#include "reverse.h"
 
 #define JMP_OFFSET 4
 
@@ -25,6 +28,9 @@ int	(*g_find_cave[ALGO_SIZE])(t_data *data, size_t payload_size) = {
 	&silvio,
 	&text,
 	&bss,
+	&note,
+	&load_segment,
+	&reverse_text
 };
 
 int	patch_new_file(t_data *data) {
